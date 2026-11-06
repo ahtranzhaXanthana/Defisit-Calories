@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F8A5B">
+<title>Pengingat Makan Sehat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#EEF4F1;--sf:#fff;--ink:#12312C;--mut:#5C7570;--ac:#1F8A5B;--acs:#D9EFE4;--hi:#F4B400;--ln:#D3E0DB;--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A17;--sf:#16251F;--ink:#E4F1EC;--mut:#93ADA6;--ac:#4CC38A;--acs:#1E3A2F;--ln:#26403A;--on:#0E1A17;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1A17;--sf:#16251F;--ink:#E4F1EC;--mut:#93ADA6;--ac:#4CC38A;--acs:#1E3A2F;--ln:#26403A;--on:#0E1A17;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Plus Jakarta Sans",system-ui,sans-serif}
+main{max-width:520px;margin:0 auto;padding:16px 16px 40px}
+[hidden]{display:none!important}
+h1{margin:4px 0;font-size:26px;line-height:1.2;font-weight:800}
+h2{margin:0 0 8px;font-size:17px;font-weight:800}
+p{margin:4px 0}
+.mut,.k{color:var(--mut);font-size:14px}
+#hero{background:var(--ac);color:var(--on);border-radius:22px;padding:20px;margin-bottom:12px}
+#hero p{opacity:.9}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px;margin:12px 0}
+.bar{height:10px;background:var(--acs);border-radius:6px;overflow:hidden;margin:8px 0 4px}
+#bar{height:100%;width:0;background:var(--ac);transition:width .3s}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.g3 div{background:var(--acs);border-radius:10px;padding:8px;text-align:center}
+.g3 b{display:block;font-size:20px}
+.r{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--ln)}
+.r:first-of-type{border-top:0}
+.r p{font-size:14px;color:var(--mut)}
+.r.ok b,.r.ok p{text-decoration:line-through;opacity:.6}
+input[type=checkbox]{width:28px;height:28px;accent-color:var(--ac);margin:0}
+input[type=time],input[type=number],input[type=text],input[type=password],select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:8px;width:100%;box-sizing:border-box}
+input[type=time]{width:auto}
+label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 16px;background:var(--ac);color:var(--on);width:100%;margin-top:14px;cursor:pointer}
+button.s{background:transparent;color:var(--ac);border:1px solid var(--ln)}
+.sw{display:flex;gap:10px;align-items:center;font-weight:600;margin:0}
+.sw input{width:22px;height:22px;accent-color:var(--ac)}
+.warn{background:var(--acs);border-radius:10px;padding:10px;font-size:14px;margin-top:10px}
+ul{margin:6px 0;padding-left:20px;font-size:14px}
+#toast{position:fixed;left:0;right:0;top:0;z-index:20;background:var(--hi);color:#2b2100;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 12px;display:flex;gap:12px;align-items:center;font-weight:700}
+#toast button{width:auto;margin:0 0 0 auto;padding:8px 14px;background:#2b2100;color:#fff}
+:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="toast" hidden><span id="tt"></span><button id="tx">OK</button></div>
+<main>
+<section id="form" class="card" hidden>
+  <h1>Atur target makan harian</h1>
+  <p class="mut">Isi data diri. Targetnya dihitung dengan defisit kalori yang moderat, protein tinggi, supaya lemak turun dan otot tetap terjaga.</p>
+  <div class="row"><div><label for="usia">Usia (tahun)</label><input id="usia" type="number" inputmode="numeric" placeholder="30"></div>
+  <div><label for="jk">Jenis kelamin</label><select id="jk"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div></div>
+  <div class="row"><div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" inputmode="decimal" placeholder="75"></div>
+  <div><label for="tb">Tinggi badan (cm)</label><input id="tb" type="number" inputmode="numeric" placeholder="170"></div></div>
+  <label for="akt">Aktivitas sehari-hari</label>
+  <select id="akt"><option value="1.2">Sedikit gerak (kerja duduk)</option><option value="1.375" selected>Ringan (olahraga 1–3×/minggu)</option><option value="1.55">Sedang (olahraga 3–5×/minggu)</option><option value="1.725">Berat (olahraga hampir tiap hari)</option></select>
+  <label for="def">Kecepatan turun berat badan</label>
+  <select id="def"><option value="0.1">Pelan (defisit ±10%)</option><option value="0.2" selected>Sedang (defisit ±20%, maks. 500 kkal)</option></select>
+  <p id="err" class="warn" hidden></p>
+  <button id="go">Hitung dan buat jadwal</button>
+  <p class="mut" style="margin-top:12px">Untuk usia 18 tahun ke atas. Ini perkiraan umum, bukan pengganti saran dokter atau ahli gizi. Jika hamil, menyusui, punya kondisi medis, atau riwayat gangguan makan, konsultasikan dulu.</p>
+</section>
+
+<div id="main2" hidden>
+  <section id="hero"></section>
+  <section class="card">
+    <h2>Hari ini</h2>
+    <div class="bar"><div id="bar"></div></div>
+    <p class="mut" id="eat"></p><p id="stk"></p>
+    <div id="ls"></div>
+    <label class="sw" style="margin-top:12px"><input type="checkbox" id="rem"> Ingatkan saya di jam makan</label>
+    <p class="mut" id="remn" style="margin-top:6px">Pengingat berbunyi dan bergetar saat halaman ini terbuka di HP. Untuk pengingat saat layar mati, tambahkan juga alarm di aplikasi Jam atau Google Kalender.</p>
+  </section>
+  <section class="card"><h2>Saran makanan</h2><p class="mut">Butuh internet. Saran disesuaikan dengan sisa kalori dan protein hari ini.</p>
+<label for="q">Bahan yang ada (opsional)</label><input id="q" type="text" placeholder="ikan cakalang, tahu, bayam">
+<button id="ai">Minta saran makanan</button><div id="ao" class="warn" style="white-space:pre-wrap" hidden></div>
+<details style="margin-top:12px"><summary>Kunci API Anthropic</summary><p class="mut">Disimpan hanya di HP ini. Buat di console.anthropic.com.</p><input id="key" type="password" placeholder="sk-ant-..."></details></section>
+<section class="card" id="tg"></section>
+  <section class="card">
+    <h2>Supaya badan terbentuk, bukan hanya turun</h2>
+    <ul>
+      <li>Latihan beban 2–3 kali seminggu menjaga otot saat defisit.</li>
+      <li>Protein di setiap waktu makan: telur, ikan, ayam, tahu, tempe.</li>
+      <li>Tidur 7–8 jam dan minum air putih sepanjang hari.</li>
+      <li>Timbang seminggu sekali di jam yang sama, lihat tren, bukan angka harian.</li>
+      <li>Turun lebih dari 1 kg per minggu terlalu cepat: naikkan porsi.</li>
+    </ul>
+  </section>
+  <button class="s" id="edit">Ubah data diri</button>
+</div>
+</main>
+<script>
+const $=s=>document.querySelector(s),K='pm1';
+let S={p:null,j:null,rem:false,done:{},edit:false};
+try{const r=localStorage.getItem(K);if(r)S=Object.assign(S,JSON.parse(r));S.edit=false}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const D0=[
+{id:'a',n:'Sarapan',t:'07:00',w:.25,m:'Telur rebus atau orak-arik 2 butir, nasi atau ubi satu porsi kecil, sayur.'},
+{id:'b',n:'Camilan pagi',t:'10:00',w:.1,m:'Buah (pisang, pepaya) atau yogurt tawar, dan segelas air putih.'},
+{id:'c',n:'Makan siang',t:'12:30',w:.3,m:'Nasi setengah sampai satu piring, ikan atau ayam panggang, tempe, sayur bening atau tumis, lalapan.'},
+{id:'d',n:'Camilan sore',t:'16:00',w:.1,m:'Kacang rebus, tahu atau tempe kukus.'},
+{id:'e',n:'Makan malam',t:'19:00',w:.25,m:'Ikan bakar atau ayam tanpa kulit, sayur banyak, karbohidrat sedikit, hindari gorengan.'}];
+const key=d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),today=()=>key(new Date());
+const nf=n=>Math.round(n).toLocaleString('id-ID');
+function calc(p){
+ const bmr=10*p.bb+6.25*p.tb-5*p.usia+(p.jk==='L'?5:-161),tdee=bmr*p.akt,bmi=p.bb/Math.pow(p.tb/100,2);
+ let def=Math.min(tdee*p.def,500),note='';
+ if(bmi<18.5){def=0;note='BMI kamu di bawah 18,5, jadi targetnya menjaga berat badan, tanpa defisit. Fokus menambah otot lewat latihan beban dan protein cukup.'}
+ const fl=p.jk==='L'?1500:1200;let kcal=tdee-def;
+ if(def>0&&kcal<fl){kcal=Math.min(fl,tdee);def=tdee-kcal;note='Target dinaikkan ke batas minimum yang aman agar tubuh tetap tercukupi.'}
+ kcal=Math.round(kcal/10)*10;
+ const pro=Math.round(Math.min(p.bb*1.8,kcal*.35/4)),fat=Math.round(kcal*.25/9),carb=Math.max(0,Math.round((kcal-pro*4-fat*9)/4));
+ return{tdee,kcal,def,pro,fat,carb,note,wk:def*7/7700};
+}
+function dur(d){const h=Math.floor(d/60),m=d%60;return d<1?'sekarang':'sekitar '+(h?h+' jam ':'')+(m?m+' menit':'')+' lagi'}
+function nxt(){
+ const n=new Date(),m=n.getHours()*60+n.getMinutes(),dn=S.done[today()]||{};
+ const L=S.j.filter(x=>!dn[x.id]).map(x=>{const q=x.t.split(':');return{x,d:q[0]*60+ +q[1]-m}});
+ if(!L.length)return null;
+ const up=L.filter(o=>o.d>=0).sort((a,b)=>a.d-b.d)[0];
+ return up||{x:L.sort((a,b)=>b.d-a.d)[0].x,late:true};
+}
+function hero(){
+ if(!S.p||S.edit)return;
+ const n=nxt(),el=$('#hero'),c=calc(S.p);
+ if(!n){el.innerHTML='<h1>Semua jadwal hari ini selesai</h1><p>Kerja bagus. Besok pengingat jalan lagi dari sarapan.</p>';return}
+ const x=n.x,k=nf(c.kcal*x.w);
+ el.innerHTML=n.late?'<p>Belum dicentang</p><h1>'+x.n+' pukul '+x.t+'</h1><p>Waktunya sudah lewat. Makan lalu centang, atau centang untuk melewatinya.</p>'
+  :'<p>Makan berikutnya</p><h1>'+x.n+' pukul '+x.t+'</h1><p>'+dur(n.d)+', sekitar '+k+' kkal.</p>';
+}
+function render(){
+ if(!S.p||S.edit){$('#form').hidden=false;$('#main2').hidden=true;fill();return}
+ $('#form').hidden=true;$('#main2').hidden=false;
+ const c=calc(S.p),dn=S.done[today()]||{};let e=0;
+ S.j.forEach(x=>{if(dn[x.id])e+=c.kcal*x.w});
+ $('#bar').style.width=Math.min(100,e/c.kcal*100)+'%';
+ $('#eat').textContent=nf(e)+' dari '+nf(c.kcal)+' kkal sudah dimakan';
+ $('#ls').innerHTML=S.j.map(x=>'<div class="r'+(dn[x.id]?' ok':'')+'"><input type="checkbox" data-c="'+x.id+'"'+(dn[x.id]?' checked':'')+' aria-label="Sudah makan '+x.n+'"><div><b>'+x.n+'</b> <span class="k">'+nf(c.kcal*x.w)+' kkal</span><p>'+x.m+'</p></div><input type="time" data-t="'+x.id+'" value="'+x.t+'" aria-label="Jam '+x.n+'"></div>').join('');
+ $('#rem').checked=S.rem;
+ $('#tg').innerHTML='<h2>Target harian: '+nf(c.kcal)+' kkal</h2><p class="mut">Kebutuhan energi kamu sekitar '+nf(c.tdee)+' kkal per hari. '+(c.def>0?'Dengan defisit '+nf(c.def)+' kkal, perkiraan turun ±'+c.wk.toFixed(1).replace('.',',')+' kg per minggu.':'Targetnya menjaga berat badan.')+'</p><div class="g3"><div><b>'+c.pro+' g</b>protein</div><div><b>'+c.carb+' g</b>karbohidrat</div><div><b>'+c.fat+' g</b>lemak</div></div>'+(c.note?'<p class="warn">'+c.note+'</p>':'');
+ $('#key').value=S.key||'';
+ hero();streak();save();jadwalkan();
+}
+function fill(){const p=S.p||{usia:'',jk:'L',bb:'',tb:'',akt:1.375,def:.2};
+ $('#usia').value=p.usia;$('#jk').value=p.jk;$('#bb').value=p.bb;$('#tb').value=p.tb;$('#akt').value=String(p.akt);$('#def').value=String(p.def)}
+$('#go').onclick=()=>{
+ const p={usia:+$('#usia').value,jk:$('#jk').value,bb:+$('#bb').value,tb:+$('#tb').value,akt:+$('#akt').value,def:+$('#def').value},er=$('#err');
+ let m='';
+ if(!(p.usia>=18&&p.usia<=80))m='Aplikasi ini untuk usia 18–80 tahun.';
+ else if(!(p.bb>=30&&p.bb<=250))m='Isi berat badan antara 30 dan 250 kg.';
+ else if(!(p.tb>=120&&p.tb<=220))m='Isi tinggi badan antara 120 dan 220 cm.';
+ er.hidden=!m;er.textContent=m;if(m)return;
+ S.p=p;S.edit=false;if(!S.j)S.j=D0.map(x=>({...x}));save();render();window.scrollTo(0,0);
+};
+$('#edit').onclick=()=>{S.edit=true;render();window.scrollTo(0,0)};
+$('#ls').addEventListener('change',e=>{
+ const t=e.target,d=today();
+ if(t.dataset.c){S.done={[d]:Object.assign({},S.done[d]),};S.done[d][t.dataset.c]=t.checked}
+ if(t.dataset.t&&t.value){S.j.find(x=>x.id===t.dataset.t).t=t.value}
+ save();render();
+});
+$('#rem').onchange=async e=>{
+ S.rem=e.target.checked;
+ if(S.rem&&LN()&&!(await izin())){S.rem=false;e.target.checked=false;alert('Izin notifikasi ditolak. Aktifkan lewat Pengaturan HP, Aplikasi, Pengingat Makan.')}
+ save();jadwalkan();
+ if(S.rem){try{if('Notification' in window&&Notification.permission==='default')await Notification.requestPermission()}catch(x){}}
+};
+$('#tx').onclick=()=>{$('#toast').hidden=true};
+const MODEL='claude-haiku-5-5';
+const LN=()=>window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()?Capacitor.Plugins.LocalNotifications:null;
+async function izin(){const l=LN();if(!l)return false;try{const r=await l.requestPermissions();if(r.display!=='granted')return false;try{const e=await l.checkExactNotificationSetting();if(e.exact_alarm==='denied')await l.changeExactNotificationSetting()}catch(x){}return true}catch(x){return false}}
+async function jadwalkan(){
+ const l=LN();if(!l||!S.p)return;
+ try{
+  await l.createChannel({id:'makan',name:'Pengingat makan',importance:5,vibration:true,visibility:1});
+  await l.cancel({notifications:[101,102,103,104,105,199].map(id=>({id}))});
+  if(!S.rem)return;
+  const c=calc(S.p),n=S.j.map((x,i)=>{const q=x.t.split(':');return{id:101+i,title:'Waktunya '+x.n.toLowerCase()+' (±'+nf(c.kcal*x.w)+' kkal)',body:x.m,channelId:'makan',schedule:{on:{hour:+q[0],minute:+q[1]},allowWhileIdle:true}}});
+  n.push({id:199,title:'Tutup hari ini',body:'Centang makanan yang sudah kamu makan supaya streak-mu terjaga.',channelId:'makan',schedule:{on:{hour:21,minute:0},allowWhileIdle:true}});
+  await l.schedule({notifications:n});
+ }catch(e){}
+}
+function streak(){
+ S.h=S.h||{};const dn=S.done[today()]||{};S.h[today()]=Object.keys(dn).filter(k=>dn[k]).length;
+ const need=Math.ceil(S.j.length*.8);let s=0,d=new Date();
+ for(let i=0;i<400;i++){if((S.h[key(d)]||0)>=need)s++;else if(i>0)break;d.setDate(d.getDate()-1)}
+ $('#stk').innerHTML='<b>Streak: '+s+' hari</b> <span class="k">(hari dihitung jika minimal '+need+' dari '+S.j.length+' waktu makan dicentang)</span>';
+}
+$('#ai').onclick=async()=>{
+ const o=$('#ao'),k=$('#key').value.trim()||S.key;o.hidden=false;
+ if(!k){o.textContent='Isi kunci API dulu di bagian bawah kartu ini.';return}
+ S.key=k;save();
+ const c=calc(S.p),dn=S.done[today()]||{};let e=0;S.j.forEach(x=>{if(dn[x.id])e+=c.kcal*x.w});
+ const sisa=S.j.filter(x=>!dn[x.id]).map(x=>x.n+' '+x.t).join(', ')||'tidak ada';
+ o.textContent='Meminta saran...';$('#ai').disabled=true;
+ try{
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:MODEL,max_tokens:700,
+   system:'Kamu ahli gizi praktis untuk orang Indonesia. Jawab dalam bahasa Indonesia, singkat, tanpa kalimat pembuka. Beri menu realistis dari bahan yang mudah didapat di Indonesia (termasuk ikan laut dan sayur lokal), dengan perkiraan kkal dan gram protein. Jangan memberi saran medis.',
+   messages:[{role:'user',content:'Target harian '+c.kcal+' kkal dan protein '+c.pro+' g. Sudah dimakan hari ini sekitar '+Math.round(e)+' kkal. Waktu makan tersisa: '+sisa+'. '+($('#q').value?'Bahan yang ada: '+$('#q').value+'. ':'')+'Beri saran menu untuk waktu makan tersisa, sesuai sisa kalori dan protein.'}]})});
+  const d=await r.json();o.textContent=r.ok?d.content.map(i=>i.text||'').join(''):'Gagal: '+((d.error&&d.error.message)||r.status);
+ }catch(x){o.textContent='Tidak bisa terhubung. Cek koneksi internet.'}
+ $('#ai').disabled=false;
+};
+const fired={};
+function alarm(x){
+ $('#tt').textContent='Waktunya '+x.n.toLowerCase()+' ('+x.t+')';$('#toast').hidden=false;
+ try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}
+ try{if('Notification' in window&&Notification.permission==='granted')new Notification('Waktunya '+x.n,{body:'Ayo makan sesuai rencana.'})}catch(e){}
+ try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(()=>{o.stop();a.close()},400)}catch(e){}
+}
+function tick(){
+ if(!S.p||S.edit)return;
+ const n=new Date(),hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'),dn=S.done[today()]||{};
+ hero();
+ if(!S.rem||LN())return;
+ S.j.forEach(x=>{const k=today()+x.id+x.t;if(x.t===hm&&!fired[k]&&!dn[x.id]){fired[k]=1;alarm(x)}});
+}
+render();setInterval(tick,15000);
+</script>
+</body>
+</html>
